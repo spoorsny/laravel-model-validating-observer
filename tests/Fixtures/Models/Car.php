@@ -38,7 +38,7 @@ class Car extends Model
      * @see     {@link https://laravel.com/docs/11.x/validation#available-validation-rules}
      * @return  array<string,array<string,mixed>>
      */
-    protected static function validationRules(): array
+    public static function validationRules(): array
     {
         return [
             'rules' => [
