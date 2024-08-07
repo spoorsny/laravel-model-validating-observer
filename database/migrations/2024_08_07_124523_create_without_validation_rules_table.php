@@ -19,6 +19,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Create database table used during testing.
+ *
+ * @author     Geoffrey Bernardo van Wyk <geoffrey@vanwyk.biz>
+ * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
+ * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
+ */
 return new class () extends Migration {
     /**
      * Run the migrations.

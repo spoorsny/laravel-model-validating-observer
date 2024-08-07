@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU General Public License along with
 // package spoorsny/laravel-model-validating-observer. If not, see <https://www.gnu.org/licenses/>.
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
 /**
  * Create cache database table to use during development.
  *
@@ -22,11 +26,6 @@
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
 return new class () extends Migration {
     /**
      * Run the migrations.
