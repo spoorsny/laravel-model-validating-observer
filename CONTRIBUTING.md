@@ -10,19 +10,19 @@ The Composer script names are according to the
 
 How the package works is explained below:
 
-- The Laravel services are bootstrapped in a minimal **bootstrap/app.php**.
-- Autodiscovered service providers are loaded into
-  **bootstrap/cache/packages.php** and **bootstrap/cache/services.php** files by
-  the `post-autoload-dump` hook defined in **composer.json**. The contents of
-  **bootstrap/cache** are ignored by Git.
-- A minimal **.env** is necessary for running tests and migrations. This file
-  is not ignored by Git, but included in the package. It does not contain any secrets.
-- A **database/database.sqlite** is created automatically after running
-  `composer install` using the `post-install-cmd` hook defined in
-  **composer.json**. It is referenced by the **.env** file, but ignored by
-  Git. It is needed by some services like Cache to store the cache database
-  table. That is why a migration for that table is included.
-- Tests are run using an in-memory SQLite database.
+-   The Laravel services are bootstrapped in a minimal **bootstrap/app.php**.
+-   Autodiscovered service providers are loaded into
+    **bootstrap/cache/packages.php** and **bootstrap/cache/services.php** files by
+    the `post-autoload-dump` hook defined in **composer.json**. The contents of
+    **bootstrap/cache** are ignored by Git.
+-   A minimal **.env** is necessary for running tests and migrations. This file
+    is not ignored by Git, but included in the package. It does not contain any secrets.
+-   A **database/database.sqlite** is created automatically after running
+    `composer install` using the `post-install-cmd` hook defined in
+    **composer.json**. It is referenced by the **.env** file, but ignored by
+    Git. It is needed by some services like Cache to store the cache database
+    table. That is why a migration for that table is included.
+-   Tests are run using an in-memory SQLite database.
 
 ## Prerequisites
 
@@ -86,6 +86,36 @@ run, issue command:
 composer test-coverage
 ```
 
+## Branch Management
+
+The Git branch that contains the canonical version of the library is named
+`master`. On GitHub, this branch is protected, meaning that commits cannot be
+added directly to the branch. Commits can only be added via a merged pull
+request.
+
+To contribute to the source code, follow the [fork & pull request workflow][fork].
+
+Pull requests are always merged by "Rebase and merge" or "Squash and merge".
+Merging is not possible if the branch of the pull request is not up-to-date
+with `master`. The purpose is to maintain a linear commit history that is
+easier to understand without merge commits.
+
+If a pull request is meant to resolve a GitHub issue, add "Resolves #3" to the
+description of the pull request (replacing "3" with the relevant issue number).
+That way the issue is automatically closed when the pull request is merged.
+
+## Commit Message Convention
+
+The commit messages of this library follows the [Conventional Commit][convcom]
+convention. Also see previous commits in the repository for how it is used. The
+idea is to simplify the creation and automation of changelogs.
+
+At the moment, the library's [Releases][releases] page on GitHub serves as the
+changelog.
+
+If a commit is related to a GitHub issue, add "Relates to #3" to the footer of
+the commit message (replacing "3" with the relevant issue number).
+
 ## GitHub Actions Workflows
 
 When a pull request is made, a _Continuous Integration_ GitHub Actions workflow
@@ -98,9 +128,25 @@ is automatically started, which:
 All three jobs must be successful before the pull request can be merged. The
 workflow is run again on the `master` branch after the pull request is merged.
 
+## Publishing to Packagist & Semantic Versioning
+
+The package has been registerd on [Packagist][pack] under username `@geoffreyvanwyk`.
+Packagist automatically crawls the repository for updates and registers a new
+version based on tags.
+
+This library follows [Semantic Versioning][semver]. A new version of the package is
+indicated with a Git tag that starts with a `v`. A release is then also created
+on GitHub based on that tag, and GitHub's built-in release notes generator is
+used.
+
 [multiple-php]: https://www.digitalocean.com/community/tutorials/how-to-run-multiple-php-versions-on-one-server-using-apache-and-php-fpm-on-ubuntu-18-04
 [composer]: https://getcomposer.org
 [phpunit]: https://phpunit.de
 [standard-php-skeleton]: https://github.com/php-pds/skeleton
 [composer-script-names]: https://github.com/php-pds/composer-script-names/tree/1.0.0
 [psr12]: https://www.php-fig.org/psr/psr-12/
+[pack]: https://packagist.org/spoorsny/south-african-id
+[semver]: https://semver.org
+[fork]: https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
+[convcom]: https://www.conventionalcommits.org/en/v1.0.0/
+[releases]: https://github.com/spoorsny/php-south-african-id/releases
