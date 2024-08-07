@@ -7,7 +7,8 @@
 
 # Observer for validating Eloquent Model
 
-An observer that validates an Eloquent model instance before it is persisted to the database.
+An observer that validates an Eloquent model instance before it is persisted to
+the database, by raising a `ValidationException`.
 
 ## Install
 
@@ -19,8 +20,41 @@ composer require spoorsny/laravel-model-validating-observer
 
 ## Usage
 
-> [!NOTE]
-> Explain how to use the package.
+Add the `ObservedBy` attribute to your model, with
+`ModelValidatingObserver::class` as its argument.
+
+Add a public, static method to your model, named `validationRules()` that
+returns an associative array with the validation rules and custom messages for
+your model's attributes.
+
+```php
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Model;
+
+use Spoorsny\Laravel\Observers\ModelValidatingObserver;
+
+#[ObservedBy(ModelValidatingObserver::class)]
+class Car extends Model
+{
+    public static function validationRules(): array
+    {
+        return [
+            'rules' => [
+                'make' => 'required|string',
+                'model' => 'required|string',
+            ],
+            'messages' => [
+                'make.required' => 'We need to know the make of the car.',
+            ],
+        ];
+    }
+}
+```
+
+The observer will check each instance of your model against the validation
+rules during the `saving` event triggered by Eloquent. If validation fails, a
+`\Illuminate\Validation\ValidationException` will be thrown, preventing the
+persistence of the invalid model instance.
 
 ## Contributing
 
