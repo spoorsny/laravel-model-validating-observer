@@ -18,20 +18,14 @@
 namespace Spoorsny\Laravel\Observers;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
+use Spoorsny\Laravel\Contracts\SelfValidatingModel;
 
 /**
- * Validates any Eloquent model before persisting it.
- *
- * The Eloquent model's class must have:
- *   - the \Illuminate\Database\Eloquent\Attributes\ObservedBy attribute that
- *     points to this class.
- *   - a static method named validationRules that returns an associative array
- *     with keys 'rules' and 'messages' that each pairs with an array. The
- *     'rules' array must match the $rules parameter of the Validator::make()
- *     method, and the 'messages' array must match the $messages parameter of
- *     the Validator::make() method.
+ * Validates any Eloquent model before persisting it by listening for the
+ * model's `saving` event.
  *
  * @see        {@link https://laravel.com/docs/11.x/eloquent#observers}
  * @see        {@link https://laravel.com/docs/11.x/validation#manually-creating-validators}
@@ -42,12 +36,8 @@ use Illuminate\Support\Facades\Validator;
  */
 class ValidateModel
 {
-    public function saving(Model $model): void
+    public function saving(Model & SelfValidatingModel $model): void
     {
-        if (! $this->hasValidationRules($model)) {
-            return;
-        }
-
         $validationRules = $model::validationRules();
 
         $validator = Validator::make(
@@ -60,14 +50,5 @@ class ValidateModel
         if ($validator->fails()) {
             throw new ValidationException($validator, null, $validator->errors()) ;
         }
-    }
-
-    private function hasValidationRules(Model $model): bool
-    {
-        $methods = (new \ReflectionClass(get_class($model)))->getMethods();
-
-        $methodNames = array_map(fn ($method) => $method->name, $methods);
-
-        return in_array(needle: 'validationRules', haystack: $methodNames);
     }
 }

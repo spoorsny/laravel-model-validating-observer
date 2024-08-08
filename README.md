@@ -20,21 +20,23 @@ composer require spoorsny/laravel-model-validating-observer
 
 ## Usage
 
-Add the `ObservedBy` attribute to your model, with
-`ValidateModel::class` as its argument.
+Add the `\Illuminate\Database\Eloquent\Attributes\ObservedBy` attribute to your model, with
+`\Spoorsny\Laravel\Observers\ValidateModel::class` as its argument.
 
-Add a public, static method to your model, named `validationRules()` that
-returns an associative array with the validation rules and custom messages for
-your model's attributes.
+Implement the `\Spoornsy\Laravel\Contracts\SelfValidatingModel` interface
+within your model by adding a public, static method to your model, named
+`validationRules()` that returns an associative array with the validation rules
+and custom messages for your model's attributes.
 
 ```php
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
+use Spoorsny\Laravel\Contracts\SelfValidatingModel;
 use Spoorsny\Laravel\Observers\ValidateModel;
 
 #[ObservedBy(ValidateModel::class)]
-class Car extends Model
+class Car extends Model implements SelfValidatingModel
 {
     public static function validationRules(): array
     {
@@ -52,7 +54,7 @@ class Car extends Model
 ```
 
 The observer will check each instance of your model against the validation
-rules during the `saving` event triggered by Eloquent. If validation fails, a
+rules during the `saving` event triggered by Eloquent. If validation fails, an
 `\Illuminate\Validation\ValidationException` will be thrown, preventing the
 persistence of the invalid model instance.
 

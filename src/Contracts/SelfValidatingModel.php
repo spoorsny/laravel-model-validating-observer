@@ -15,21 +15,36 @@
 // You should have received a copy of the GNU General Public License along with
 // package spoorsny/laravel-model-validating-observer. If not, see <https://www.gnu.org/licenses/>.
 
-namespace Spoorsny\Laravel\Tests\Fixtures\Models;
-
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-use Spoorsny\Laravel\Observers\ValidateModel;
+namespace Spoorsny\Laravel\Contracts;
 
 /**
+ * Specifies the methods that an \Illuminate\Database\Eloquent\Model subclass
+ * must implement in order to be validated by the
+ * \Spoorsny\Laravel\Observers\ValidateModel observer.
+ *
  * @author     Geoffrey Bernardo van Wyk <geoffrey@vanwyk.biz>
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-#[ObservedBy(ValidateModel::class)]
-class WithoutValidationRules extends Model
+interface SelfValidatingModel
 {
-    use HasFactory;
+    /**
+     * Rules for validating the model's attributes.
+     *
+     * An example of an array that must be return by this method:
+     *
+     *   [
+     *       'rules' => [
+     *           'make' => 'required|string',
+     *           'model' => 'required|string',
+     *       ],
+     *       'messages' => [
+     *           'make.required' => 'We need to know the make of the car.',
+     *       ],
+     *   ]
+     *
+     * @see     {@link https://laravel.com/docs/11.x/validation#available-validation-rules}
+     * @return  array<string,array<string,mixed>>
+     */
+    public static function validationRules(): array;
 }

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Spoorsny\Laravel\Contracts\SelfValidatingModel;
 use Spoorsny\Laravel\Observers\ValidateModel;
 
 /**
@@ -29,7 +30,7 @@ use Spoorsny\Laravel\Observers\ValidateModel;
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
 #[ObservedBy(ValidateModel::class)]
-class Car extends Model
+class Car extends Model implements SelfValidatingModel
 {
     use HasFactory;
 
