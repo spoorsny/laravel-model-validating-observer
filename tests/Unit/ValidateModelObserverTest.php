@@ -18,6 +18,7 @@
 namespace Spoorsny\Laravel\Tests\Unit;
 
 use ReflectionClass;
+use TypeError;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -27,7 +28,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Spoorsny\Laravel\Observers\ValidateModel;
 use Spoorsny\Laravel\Tests\Fixtures\Models\Car;
-use Spoorsny\Laravel\Tests\Fixtures\Models\WithoutValidationRules;
+use Spoorsny\Laravel\Tests\Fixtures\Models\NotSelfValidatingCar;
 use Spoorsny\Laravel\Tests\TestCase;
 
 /**
@@ -41,29 +42,20 @@ class ValidateModelObserverTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function it_passes_a_new_instance_without_validation_rules(): void
+    public function it_requires_model_to_be_self_validating(): void
     {
-        $this->assertObservedByMe(WithoutValidationRules::class);
+        $this->assertObservedByMe(NotSelfValidatingCar::class);
 
-        $car = new WithoutValidationRules();
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'Spoorsny\Laravel\Observers\ValidateModel::saving(): '
+            . 'Argument #1 ($model) must be of type '
+            . 'Illuminate\Database\Eloquent\Model&Spoorsny\Laravel\Contracts\SelfValidatingModel'
+        );
+
+        $car = new NotSelfValidatingCar();
         $car->make = 'Volkswagen';
         $car->model = 'Polo Vivo';
-        $car->save();
-    }
-
-    #[Test]
-    public function it_passes_an_existing_instance_without_validation_rules(): void
-    {
-        $this->assertObservedByMe(WithoutValidationRules::class);
-
-        $car = new WithoutValidationRules();
-        $car->make = 'Volkswagen';
-        $car->model = 'Polo Vivo';
-        $car->save();
-
-        $car = WithoutValidationRules::find(1);
-        $car->make = 'Mitsubishi';
-        $car->model = 'Triton';
         $car->save();
     }
 
