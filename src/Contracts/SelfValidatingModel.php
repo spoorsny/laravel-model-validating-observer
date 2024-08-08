@@ -31,7 +31,7 @@ interface SelfValidatingModel
     /**
      * Rules for validating the model's attributes.
      *
-     * An example of an array that must be return by this method:
+     * An example of an array that must be returned by this method:
      *
      *   [
      *       'rules' => [
@@ -43,7 +43,8 @@ interface SelfValidatingModel
      *       ],
      *   ]
      *
-     * @see     {@link https://laravel.com/docs/11.x/validation#available-validation-rules}
+     * @see     {@link https://laravel.com/docs/11.x/validation#manually-creating-validators}
+     * @see     {@link https://laravel.com/docs/11.x/validation#manual-customizing-the-error-messages}
      * @return  array<string,array<string,mixed>>
      */
     public static function validationRules(): array;
