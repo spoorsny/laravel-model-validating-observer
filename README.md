@@ -21,7 +21,7 @@ composer require spoorsny/laravel-model-validating-observer
 ## Usage
 
 Add the `ObservedBy` attribute to your model, with
-`ModelValidatingObserver::class` as its argument.
+`ValidateModel::class` as its argument.
 
 Add a public, static method to your model, named `validationRules()` that
 returns an associative array with the validation rules and custom messages for
@@ -31,9 +31,9 @@ your model's attributes.
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
-use Spoorsny\Laravel\Observers\ModelValidatingObserver;
+use Spoorsny\Laravel\Observers\ValidateModel;
 
-#[ObservedBy(ModelValidatingObserver::class)]
+#[ObservedBy(ValidateModel::class)]
 class Car extends Model
 {
     public static function validationRules(): array

@@ -20,14 +20,15 @@ namespace Spoorsny\Laravel\Tests\Fixtures\Models;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spoorsny\Laravel\Observers\ModelValidatingObserver;
+
+use Spoorsny\Laravel\Observers\ValidateModel;
 
 /**
  * @author     Geoffrey Bernardo van Wyk <geoffrey@vanwyk.biz>
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-#[ObservedBy(ModelValidatingObserver::class)]
+#[ObservedBy(ValidateModel::class)]
 class WithoutValidationRules extends Model
 {
     use HasFactory;

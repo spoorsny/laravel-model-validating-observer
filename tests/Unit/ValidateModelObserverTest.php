@@ -17,16 +17,15 @@
 
 namespace Spoorsny\Laravel\Tests\Unit;
 
-use Illuminate\Validation\ValidationException;
 use ReflectionClass;
 
+use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 
-use Spoorsny\Laravel\Observers\ModelValidatingObserver;
+use Spoorsny\Laravel\Observers\ValidateModel;
 use Spoorsny\Laravel\Tests\Fixtures\Models\Car;
 use Spoorsny\Laravel\Tests\Fixtures\Models\WithoutValidationRules;
 use Spoorsny\Laravel\Tests\TestCase;
@@ -36,8 +35,8 @@ use Spoorsny\Laravel\Tests\TestCase;
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-#[CoversClass(ModelValidatingObserver::class)]
-class ModelValidatingObserverTest extends TestCase
+#[CoversClass(ValidateModel::class)]
+class ValidateModelObserverTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -129,7 +128,7 @@ class ModelValidatingObserverTest extends TestCase
     }
 
     /**
-     * Assert that the class is observed by the ModelValidatingObserver::class.
+     * Assert that the class is observed by the ValidateModel::class.
      */
     private function assertObservedByMe(string $className): void
     {
@@ -137,9 +136,9 @@ class ModelValidatingObserverTest extends TestCase
 
         $observedByAttributes = array_filter($attributes, function ($attr) {
             return $attr->getName() === ObservedBy::class
-                && in_array(ModelValidatingObserver::class, $attr->getArguments());
+                && in_array(ValidateModel::class, $attr->getArguments());
         });
 
-        $this->assertTrue(count($observedByAttributes) >= 1);
+        $this->assertTrue(count($observedByAttributes) >= 1, 'Model is not observed by me.');
     }
 }
