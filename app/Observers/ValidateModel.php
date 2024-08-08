@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Validator;
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-class ModelValidatingObserver
+class ValidateModel
 {
     public function saving(Model $model): void
     {
