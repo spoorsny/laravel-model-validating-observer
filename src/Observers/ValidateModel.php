@@ -28,8 +28,6 @@ use Spoorsny\Laravel\Contracts\SelfValidatingModel;
  * model's `saving` event.
  *
  * @see        {@link https://laravel.com/docs/11.x/eloquent#observers}
- * @see        {@link https://laravel.com/docs/11.x/validation#manually-creating-validators}
- * @see        {@link https://laravel.com/docs/11.x/validation#manual-customizing-the-error-messages}
  * @author     Geoffrey Bernardo van Wyk <geoffrey@vanwyk.biz>
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
